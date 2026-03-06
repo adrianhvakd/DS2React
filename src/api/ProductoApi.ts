@@ -6,7 +6,7 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
     (config) => {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZHJpYW5odmFrZCIsImV4cCI6MTc3MjY2Mjk0Nn0.7UVgMusBZtL-zfAwSehRiNnVvyJRQRePnYMYd2oJluw'
+        const token = localStorage.getItem('token')
         
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
@@ -18,7 +18,20 @@ apiInstance.interceptors.request.use(
     }
 )
 
+export interface productCreate{
+    nombre: string
+    precio: number
+    descripcion: string | null
+}
+
+export interface productUpdate{
+    nombre: string | null
+    precio: number | null
+    descripcion: string | null
+}
+
 export const GetAllProduct = () => apiInstance.get('')
-export const CreateProduct = (dato: any) => apiInstance.post('', dato)
-export const UpdateProduct = (id: number, dato: any) => apiInstance.put(`${id}`)
+export const CreateProduct = (dato: productCreate) => apiInstance.post('', dato)
+export const UpdateProduct = (id: number, dato: productUpdate) => apiInstance.put(`${id}`, dato)
 export const DeleteProduct = (id: number) => apiInstance.delete(`${id}`)
+export const GetProduct = (id: number) => apiInstance.get(`${id}`) 

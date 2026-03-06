@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { GetAllProduct } from '../api/ProductoApi'
+import { DeleteProduct } from '../api/ProductoApi'
 
 interface Producto{
     id: number;
@@ -18,9 +19,20 @@ function ProductoLista() {
         }
         loadProducts()
     },[])
-    function editProduct(id:number){
-        alert(id)
+
+    const borrar = async (id:number) =>{
+        const siEliminar = confirm("Esta seguro de eliminar?")
+        if(siEliminar){
+            try{
+                await DeleteProduct(id)
+                setProductos(products.filter(p => p.id !== id));
+            }
+            catch(e){
+                console.log(e)
+            }
+        }
     }
+
   return (
     <div className='flex flex-col p-5 gap-5'>
         <h1 className='text-4xl'>Lista de productos</h1>
@@ -43,8 +55,8 @@ function ProductoLista() {
                         <th>{prod.precio}</th>
                         <th>{prod.descripcion}</th>
                         <th className='flex gap-3'>
-                            <button className='btn btn-primary' onClick={() =>editProduct(prod.id)}>Editar</button>
-                            <button className='btn btn-error'>Eliminar</button>
+                            <a className='btn btn-primary' href={'/producto-edit/' + prod.id}>Editar</a>
+                            <button className='btn btn-error' onClick={() => {borrar(prod.id);}}>Eliminar</button>
                         </th>
                     </tr>
                 )) }

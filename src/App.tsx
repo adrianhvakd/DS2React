@@ -3,6 +3,7 @@ import './App.css'
 import ProductosPage from './pages/productos/ProductosPage'
 import ProductosFormPages from './pages/productos/ProductosFormPages'
 import Menu from './components/Menu'
+import { Login } from './pages/auth/login'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Menu/>
           <Routes>
+            <Route path='/login' element={<Login/>}></Route>
             <Route path='/producto' element={<ProductosPage/>} ></Route>
             <Route path='/producto-create' element={<ProductosFormPages/>} ></Route>
             <Route path='/producto-edit/:id' element={<ProductosFormPages/>} ></Route>
